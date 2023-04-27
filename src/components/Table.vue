@@ -2,21 +2,45 @@
 	<div class="table">
 		<section class="table__header">
 			<input
+				class="table__header_input"
 				type="text"
 				v-model="inputTask" />
 
-			<button @click="addTask">Add Task</button>
+			<button
+				class="table__header_button"
+				@click="addTask">
+				Add Task
+			</button>
 
 			<input
+				class="table__header_input"
 				type="date"
 				v-model="inputData" />
-			<button @click="addData">Add Data</button>
-
+			<button
+				class="table__header_button"
+				@click="addData">
+				Add Data
+			</button>
 			<input
+				class="table__header_input"
+				type="text"
+				v-model="inputEvent" />
+
+			<button
+				class="table__header_button"
+				@click="addEvent">
+				Add Event
+			</button>
+			<input
+				class="table__header_input"
 				type="text"
 				v-model="inputStatus" />
 
-			<button @click="addStatus">Add Status</button>
+			<button
+				class="table__header_button"
+				@click="addStatus">
+				Add Status
+			</button>
 		</section>
 		<section class="table__body">
 			<table>
@@ -136,11 +160,20 @@ export default {
 
 		addStatus() {
 			let inputStatus = this.inputStatus;
-			this.tasks;
+
 			if (inputStatus.length > 0) {
 				this.statuses.push('🔵 ' + inputStatus);
 			}
 			this.inputStatus = '';
+		},
+
+		addEvent() {
+			let inputEvent = this.inputEvent;
+
+			if (inputEvent.length > 0) {
+				this.events.push('🔶 ' + inputEvent);
+			}
+			this.inputEvent = '';
 		},
 	},
 };
@@ -243,9 +276,40 @@ tbody {
 
 	.table__header {
 		width: 100%;
-		height: 10%;
+		min-height: 10%;
 		background-color: #fff4;
 		padding: 0.8rem;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 15px;
+
+		.table__header_input {
+			width: 160px;
+			height: 36px;
+			border-radius: 6px;
+			background: #a5d1ef;
+			box-shadow: inset -5px -5px 10px #9ec9e5,
+				inset 5px 5px 10px #acd9f9;
+			padding: 10px;
+			display: flex;
+
+			text-align: center;
+			cursor: pointer;
+			font-weight: 400;
+			font-size: 14px;
+		}
+
+		.table__header_button {
+			height: 36px;
+			border-radius: 6px;
+			background: #a5d1ef;
+			box-shadow: -5px -5px 10px #9ec9e5, 5px 5px 10px #acd9f9;
+			padding: 10px;
+			display: flex;
+			text-align: center;
+		}
 	}
 
 	.table__body {
@@ -259,9 +323,5 @@ tbody {
 }
 
 thead {
-}
-
-button {
-	margin-top: 10px;
 }
 </style>
