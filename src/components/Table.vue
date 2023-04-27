@@ -33,17 +33,45 @@
 				</thead>
 				<tbody>
 					<tr
-						v-for="(item, index) in tasks"
-						:key="index">
+						v-for="(item, outerIndex) in tasks"
+						:key="outerIndex">
 						<th>✅ {{ item.task }}</th>
 						<th
 							v-for="(item, index) in dates"
 							:key="index">
-							<label
+							<!-- <label
 								v-for="(item, index) in events"
-								:key="index"></label>
+								:for="events"
+								:key="index"></label> -->
+							<label>
+								<select :id="events">
+									<option
+										v-for="(item, index) in events"
+										:key="index"
+										:value="item"
+										:selected="
+											tasks[outerIndex].event === index
+										">
+										🔷 {{ item }}
+									</option>
+								</select>
+							</label>
 						</th>
-						<th>🔘 {{ item.status }}</th>
+						<th>
+							<label>
+								<select :id="statuses">
+									<option
+										v-for="(item, index) in statuses"
+										:key="index"
+										:value="item"
+										:selected="
+											tasks[outerIndex].status === index
+										">
+										{{ item }}
+									</option>
+								</select>
+							</label>
+						</th>
 					</tr>
 				</tbody>
 			</table>
@@ -61,17 +89,17 @@ export default {
 			inputStatus: '',
 
 			tasks: [
-				{ task: 'go', status: 'dfgfd' },
-				{ task: 'went', status: '' },
-				{ task: 'gone', status: '' },
-				{ task: 'do', status: '' },
-				{ task: 'did', status: '' },
-				{ task: 'done', status: '' },
+				{ task: 'go', event: 0, status: 0 },
+				{ task: 'went', event: 0, status: 0 },
+				{ task: 'gone', event: 0, status: 0 },
+				{ task: 'do', event: 1, status: 0 },
+				{ task: 'did', event: 0, status: 1 },
+				{ task: 'done', event: 0, status: 2 },
 			],
 
 			dates: ['07.04.2023', '08.04.2023', '09.04.2023'],
 
-			events: ['birthday', 'hollyday', 'meeting'],
+			events: ['🎂 Birthday', '⛳ Hollyday', '👩‍💻 Meeting'],
 
 			statuses: ['🟡 In progress', '🟢 Done', '⚪ Stop'],
 		};
@@ -81,7 +109,10 @@ export default {
 			let inputTask = this.inputTask;
 			this.tasks;
 			if (inputTask.length > 0) {
-				this.tasks.push({ task: inputTask, status: '' });
+				this.tasks.push({
+					task: inputTask,
+					status: '🟡 In progress',
+				});
 			}
 			this.inputTask = '';
 		},
@@ -116,6 +147,51 @@ export default {
 </script>
 
 <style lang="scss">
+select {
+	width: 140px;
+	height: 35px;
+	padding: 4px;
+	border-radius: 4px;
+	box-shadow: 2px 2px 8px #999;
+	background: #eee;
+	border: none;
+	outline: none;
+	display: inline-block;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	cursor: pointer;
+}
+label {
+	position: relative;
+}
+label:after {
+	content: '<>';
+	font: 11px 'Consolas', monospace;
+	color: #666;
+	-webkit-transform: rotate(90deg);
+	-moz-transform: rotate(90deg);
+	-ms-transform: rotate(90deg);
+	transform: rotate(90deg);
+	right: 8px;
+	top: 2px;
+	padding: 0 0 2px;
+	border-bottom: 1px solid #ddd;
+	position: absolute;
+	pointer-events: none;
+}
+label:before {
+	content: '';
+	right: 6px;
+	top: 0px;
+	width: 20px;
+	height: 20px;
+	background: #eee;
+	position: absolute;
+	pointer-events: none;
+	display: block;
+}
+
 table,
 th,
 tr {
