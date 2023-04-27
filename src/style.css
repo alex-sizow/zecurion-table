@@ -42,7 +42,6 @@ aside,
 nav,
 footer,
 header,
-section,
 main {
 	display: block;
 }
@@ -78,20 +77,6 @@ address {
 }
 
 /* Form */
-
-input,
-textarea,
-button,
-select {
-	font-family: inherit;
-	font-size: inherit;
-	color: inherit;
-	background-color: transparent;
-}
-
-input::-ms-clear {
-	display: none;
-}
 
 button,
 input[type='submit'] {

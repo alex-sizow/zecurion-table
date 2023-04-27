@@ -6,18 +6,23 @@
 				v-model="inputTask" />
 
 			<button @click="addTask">Add Task</button>
+
+			<input
+				type="date"
+				v-model="inputData" />
+			<button @click="addData">Add Data</button>
 		</section>
 		<section class="table__body">
 			<table>
 				<thead>
 					<tr>
-						<th>Tasks</th>
+						<th>🧾Tasks</th>
 						<th
 							v-for="(date, index) in dates"
 							:key="index">
-							{{ date }}
+							📅{{ date }}
 						</th>
-						<th>status</th>
+						<th>⚫Status</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -28,7 +33,9 @@
 						<th
 							v-for="(item, index) in dates"
 							:key="index">
-							{{ item }}
+							<label
+								v-for="(item, index) in events"
+								:key="index"></label>
 						</th>
 						<th>{{ status }}</th>
 					</tr>
@@ -43,7 +50,10 @@ export default {
 	data() {
 		return {
 			inputTask: '',
-			dates: [23.03, 24.04, 2.05, 5],
+			inputEvent: '',
+			inputData: '',
+			dates: ['07.04.2023', '08.04.2023', '09.04.2023'],
+			events: ['birthday', 'hollyday', 'meeting'],
 			tasks: [
 				{ task: 'go', status: '' },
 				{ task: 'went', status: '' },
@@ -63,6 +73,23 @@ export default {
 			if (inputTask.length > 0) {
 				this.tasks.push({ task: inputTask, status: '' });
 			}
+			this.inputTask = '';
+		},
+		addData() {
+			const date = new Date(this.inputData);
+			const options = {
+				month: 'numeric',
+				day: 'numeric',
+				year: 'numeric',
+			};
+			const formatter = new Intl.DateTimeFormat(
+				'ru-RU',
+				options,
+			);
+			if (this.inputData.length > 0) {
+				this.dates.push(formatter.format(date));
+			}
+			this.inputData = '';
 		},
 	},
 };
@@ -105,6 +132,8 @@ tbody {
 		transition: 0.3s;
 	}
 }
+
+/* Стили для option */
 
 .table {
 	width: 82vw;
