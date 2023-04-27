@@ -11,25 +11,31 @@
 				type="date"
 				v-model="inputData" />
 			<button @click="addData">Add Data</button>
+
+			<input
+				type="text"
+				v-model="inputStatus" />
+
+			<button @click="addStatus">Add Status</button>
 		</section>
 		<section class="table__body">
 			<table>
 				<thead>
 					<tr>
-						<th>🧾Tasks</th>
+						<th>🧾 Tasks</th>
 						<th
 							v-for="(date, index) in dates"
 							:key="index">
-							📅{{ date }}
+							📅 {{ date }}
 						</th>
-						<th>⚫Status</th>
+						<th>⚫ Status</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr
 						v-for="(item, index) in tasks"
 						:key="index">
-						<th>{{ item.task }}</th>
+						<th>✅ {{ item.task }}</th>
 						<th
 							v-for="(item, index) in dates"
 							:key="index">
@@ -37,7 +43,7 @@
 								v-for="(item, index) in events"
 								:key="index"></label>
 						</th>
-						<th>{{ status }}</th>
+						<th>🔘 {{ item.status }}</th>
 					</tr>
 				</tbody>
 			</table>
@@ -50,12 +56,12 @@ export default {
 	data() {
 		return {
 			inputTask: '',
-			inputEvent: '',
 			inputData: '',
-			dates: ['07.04.2023', '08.04.2023', '09.04.2023'],
-			events: ['birthday', 'hollyday', 'meeting'],
+			inputEvent: '',
+			inputStatus: '',
+
 			tasks: [
-				{ task: 'go', status: '' },
+				{ task: 'go', status: 'dfgfd' },
 				{ task: 'went', status: '' },
 				{ task: 'gone', status: '' },
 				{ task: 'do', status: '' },
@@ -63,7 +69,11 @@ export default {
 				{ task: 'done', status: '' },
 			],
 
-			rows: [],
+			dates: ['07.04.2023', '08.04.2023', '09.04.2023'],
+
+			events: ['birthday', 'hollyday', 'meeting'],
+
+			statuses: ['🟡 In progress', '🟢 Done', '⚪ Stop'],
 		};
 	},
 	methods: {
@@ -75,6 +85,7 @@ export default {
 			}
 			this.inputTask = '';
 		},
+
 		addData() {
 			const date = new Date(this.inputData);
 			const options = {
@@ -91,6 +102,15 @@ export default {
 			}
 			this.inputData = '';
 		},
+
+		addStatus() {
+			let inputStatus = this.inputStatus;
+			this.tasks;
+			if (inputStatus.length > 0) {
+				this.statuses.push('🔵 ' + inputStatus);
+			}
+			this.inputStatus = '';
+		},
 	},
 };
 </script>
@@ -102,6 +122,7 @@ tr {
 	padding: 1rem;
 	border-collapse: collapse;
 	font-weight: 400;
+	text-align: left;
 }
 
 table {
