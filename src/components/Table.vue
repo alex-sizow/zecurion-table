@@ -1,28 +1,36 @@
 <template>
 	<div class="table">
 		<section class="table__header">
-			<h1>Customers hoho</h1>
+			<input
+				type="text"
+				v-model="inputTask" />
+
+			<button @click="addTask">Add Task</button>
 		</section>
 		<section class="table__body">
 			<table>
 				<thead>
 					<tr>
-						<th>№</th>
 						<th>Tasks</th>
-						<th>Dates</th>
-						<th>Statuses</th>
+						<th
+							v-for="(date, index) in dates"
+							:key="index">
+							{{ date }}
+						</th>
+						<th>status</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr
-						v-for="(item, index) in [
-							1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
-						]"
+						v-for="(item, index) in tasks"
 						:key="index">
-						<th>{{ item }}</th>
-						<th>Task</th>
-						<th>23.04.2023</th>
-						<th>later</th>
+						<th>{{ item.task }}</th>
+						<th
+							v-for="(item, index) in dates"
+							:key="index">
+							{{ item }}
+						</th>
+						<th>{{ status }}</th>
 					</tr>
 				</tbody>
 			</table>
@@ -34,13 +42,27 @@
 export default {
 	data() {
 		return {
-			columns: ['Name', 'Age', 'Gender'],
+			inputTask: '',
+			dates: [23.03, 24.04, 2.05, 5],
+			tasks: [
+				{ task: 'go', status: '' },
+				{ task: 'went', status: '' },
+				{ task: 'gone', status: '' },
+				{ task: 'do', status: '' },
+				{ task: 'did', status: '' },
+				{ task: 'done', status: '' },
+			],
+
 			rows: [],
 		};
 	},
 	methods: {
-		addRow() {
-			this.rows.push();
+		addTask() {
+			let inputTask = this.inputTask;
+			this.tasks;
+			if (inputTask.length > 0) {
+				this.tasks.push({ task: inputTask, status: '' });
+			}
 		},
 	},
 };
@@ -60,6 +82,9 @@ table {
 }
 
 thead {
+	tr {
+		background-color: #d5d1defe;
+	}
 	th {
 		position: sticky;
 		top: 0;
@@ -69,11 +94,15 @@ thead {
 }
 
 tbody {
+	tr {
+		transition: 0.2s;
+	}
 	tr:nth-child(even) {
 		background-color: #0000000b;
 	}
 	tr:hover {
 		background-color: #fff6;
+		transition: 0.3s;
 	}
 }
 
