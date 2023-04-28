@@ -121,12 +121,7 @@ export default {
 			tasks: [
 				{
 					task: 'go',
-					event: [
-						'',
-						'🎂 Birthday',
-						'⛳ Hollyday',
-						'👩‍💻 Meeting',
-					],
+					event: ['', '🎂 Birthday', '⛳ Hollyday'],
 					status: 0,
 				},
 				{
@@ -146,7 +141,7 @@ export default {
 				},
 				{
 					task: 'did',
-					event: ['', '🎂 Birthday', '', '👩‍💻 Meeting'],
+					event: ['', '🎂 Birthday', ''],
 					status: 1,
 				},
 				{
@@ -169,7 +164,6 @@ export default {
 		};
 	},
 	methods: {
-		
 		addTask() {
 			let inputTask = this.inputTask;
 			this.tasks;
