@@ -9,7 +9,7 @@
 			<button
 				class="table__header_button"
 				@click="addTask">
-				Add Task
+				✅ Add Task
 			</button>
 
 			<input
@@ -19,7 +19,7 @@
 			<button
 				class="table__header_button"
 				@click="addData">
-				Add Data
+				📅 Add Data
 			</button>
 			<input
 				class="table__header_input"
@@ -29,7 +29,7 @@
 			<button
 				class="table__header_button"
 				@click="addEvent">
-				Add Event
+				🔷 Add Event
 			</button>
 			<input
 				class="table__header_input"
@@ -39,7 +39,7 @@
 			<button
 				class="table__header_button"
 				@click="addStatus">
-				Add Status
+				⚫ Add Status
 			</button>
 		</section>
 		<section class="table__body">
@@ -61,22 +61,28 @@
 						:key="outerIndex">
 						<th>✅ {{ item.task }}</th>
 						<th
-							v-for="(item, index) in dates"
-							:key="index">
+							v-for="(item, dataIndex) in dates"
+							:key="dataIndex">
 							<!-- <label
 								v-for="(item, index) in events"
 								:for="events"
 								:key="index"></label> -->
 							<label>
-								<select :id="events">
+								<select
+									:id="events"
+									v-model="
+										tasks[outerIndex].event[dataIndex]
+									">
 									<option
 										v-for="(item, index) in events"
 										:key="index"
 										:value="item"
 										:selected="
-											tasks[outerIndex].event === index
+											tasks[outerIndex].event[dataIndex] ===
+											item
 										">
-										🔷 {{ item }}
+										🔷
+										{{ item }}
 									</option>
 								</select>
 							</label>
@@ -113,28 +119,66 @@ export default {
 			inputStatus: '',
 
 			tasks: [
-				{ task: 'go', event: 0, status: 0 },
-				{ task: 'went', event: 0, status: 0 },
-				{ task: 'gone', event: 0, status: 0 },
-				{ task: 'do', event: 1, status: 0 },
-				{ task: 'did', event: 0, status: 1 },
-				{ task: 'done', event: 0, status: 2 },
+				{
+					task: 'go',
+					event: [
+						'',
+						'🎂 Birthday',
+						'⛳ Hollyday',
+						'👩‍💻 Meeting',
+					],
+					status: 0,
+				},
+				{
+					task: 'went',
+					event: ['⛳ Hollyday', '⛳ Hollyday', '👩‍💻 Meeting'],
+					status: 0,
+				},
+				{
+					task: 'gone',
+					event: ['', '🎂 Birthday', '⛳ Hollyday'],
+					status: 0,
+				},
+				{
+					task: 'do',
+					event: ['', '⛳ Hollyday', '🎂 Birthday'],
+					status: 0,
+				},
+				{
+					task: 'did',
+					event: ['', '🎂 Birthday', '', '👩‍💻 Meeting'],
+					status: 1,
+				},
+				{
+					task: 'done',
+					event: ['', '🎂 Birthday', '⛳ Hollyday'],
+					status: 2,
+				},
 			],
 
 			dates: ['07.04.2023', '08.04.2023', '09.04.2023'],
 
-			events: ['🎂 Birthday', '⛳ Hollyday', '👩‍💻 Meeting'],
+			events: [
+				'',
+				'🎂 Birthday',
+				'⛳ Hollyday',
+				'👩‍💻 Meeting',
+			],
 
 			statuses: ['🟡 In progress', '🟢 Done', '⚪ Stop'],
 		};
 	},
 	methods: {
+		
 		addTask() {
 			let inputTask = this.inputTask;
 			this.tasks;
+			let events = this.dates.map((event) => 0);
+
 			if (inputTask.length > 0) {
 				this.tasks.push({
 					task: inputTask,
+					event: events,
 					status: '🟡 In progress',
 				});
 			}
@@ -308,7 +352,8 @@ tbody {
 			box-shadow: -5px -5px 10px #9ec9e5, 5px 5px 10px #acd9f9;
 			padding: 10px;
 			display: flex;
-			text-align: center;
+
+			align-items: center;
 		}
 	}
 
