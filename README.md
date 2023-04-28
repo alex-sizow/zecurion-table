@@ -2,9 +2,7 @@
 
 [zecurion-table](https://zecurion-table.vercel.app/)
 
-## Project info
-
-Тестовое задание:
+## Тестовое задание:
 
 ⚡Требует доработки:
 

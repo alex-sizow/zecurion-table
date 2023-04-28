@@ -91,7 +91,7 @@
 								</select>
 							</label>
 						</th>
-						<th>
+						<th class="status">
 							<label>
 								<select
 									:id="statuses"
@@ -107,6 +107,11 @@
 									</option>
 								</select>
 							</label>
+							<button
+								class="status__delete"
+								@click="deleteTask(outerIndex)">
+								❌
+							</button>
 						</th>
 					</tr>
 				</tbody>
@@ -191,6 +196,10 @@ export default {
 				});
 			}
 			this.inputTask = '';
+		},
+
+		deleteTask(indexToRemove) {
+			this.tasks.splice(indexToRemove, 1);
 		},
 
 		addData() {
@@ -284,6 +293,9 @@ tr {
 	border-collapse: collapse;
 	font-weight: 400;
 	text-align: left;
+}
+
+th {
 }
 
 table {
@@ -383,6 +395,16 @@ tbody {
 	}
 }
 
-thead {
+.status {
+	display: flex;
+	align-items: center;
+	.status__delete {
+		transition: 0.5s;
+		margin-left: 1rem;
+	}
+	.status__delete:hover {
+		transition: 0.5s;
+		text-shadow: -1px -1px 2px #d32b52, 1px 1px 2px #ff3b70;
+	}
 }
 </style>
