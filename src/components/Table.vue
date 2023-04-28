@@ -93,7 +93,9 @@
 						</th>
 						<th>
 							<label>
-								<select :id="statuses">
+								<select
+									:id="statuses"
+									v-model="tasks[outerIndex].status">
 									<option
 										v-for="(item, index) in statuses"
 										:key="index"
@@ -127,32 +129,32 @@ export default {
 				{
 					task: 'go',
 					event: ['', '🎂 Birthday', '⛳ Hollyday'],
-					status: 0,
+					status: '🟡 In progress',
 				},
 				{
 					task: 'went',
 					event: ['⛳ Hollyday', '⛳ Hollyday', '👩‍💻 Meeting'],
-					status: 0,
+					status: '🟡 In progress',
 				},
 				{
 					task: 'gone',
 					event: ['', '🎂 Birthday', '⛳ Hollyday'],
-					status: 0,
+					status: '🟡 In progress',
 				},
 				{
 					task: 'do',
 					event: ['', '⛳ Hollyday', '🎂 Birthday'],
-					status: 0,
+					status: '🟡 In progress',
 				},
 				{
 					task: 'did',
 					event: ['', '🎂 Birthday', ''],
-					status: 1,
+					status: '⚪ Stop',
 				},
 				{
 					task: 'done',
 					event: ['', '🎂 Birthday', '⛳ Hollyday'],
-					status: 2,
+					status: '🟢 Done',
 				},
 			],
 
@@ -169,11 +171,11 @@ export default {
 		};
 	},
 	methods: {
-		titleDisplay(task, date, event, indexStatus) {
+		titleDisplay(task, date, event, status) {
 			if (event.length > 0) {
-				this.title = `${date} task ${task} in status "${this.statuses[indexStatus]}" event ${event} occurs.`;
+				this.title = `${date} task ${task} in status "${status}" event ${event} occurs.`;
 			} else {
-				this.title = `${date} task ${task} in status "${this.statuses[indexStatus]}" no events . `;
+				this.title = `${date} task ${task} in status "${status}" no events . `;
 			}
 		},
 
