@@ -396,8 +396,6 @@ tbody {
 }
 
 .status {
-	display: flex;
-	align-items: center;
 	.status__delete {
 		transition: 0.5s;
 		margin-left: 1rem;
