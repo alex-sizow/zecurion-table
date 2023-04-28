@@ -43,6 +43,7 @@
 			</button>
 		</section>
 		<section class="table__body">
+			<div class="table__body_title">{{ title }}</div>
 			<table>
 				<thead>
 					<tr>
@@ -55,23 +56,26 @@
 						<th>⚫ Status</th>
 					</tr>
 				</thead>
+
 				<tbody>
 					<tr
 						v-for="(item, outerIndex) in tasks"
 						:key="outerIndex">
 						<th>✅ {{ item.task }}</th>
 						<th
-							v-for="(item, dataIndex) in dates"
+							v-for="(date, dataIndex) in dates"
 							:key="dataIndex">
-							<!-- <label
-								v-for="(item, index) in events"
-								:for="events"
-								:key="index"></label> -->
 							<label>
 								<select
 									:id="events"
-									v-model="
-										tasks[outerIndex].event[dataIndex]
+									v-model="tasks[outerIndex].event[dataIndex]"
+									v-on:mouseover="
+										titleDisplay(
+											item.task,
+											date,
+											tasks[outerIndex].event[dataIndex],
+											tasks[outerIndex].status,
+										)
 									">
 									<option
 										v-for="(item, index) in events"
@@ -113,6 +117,7 @@
 export default {
 	data() {
 		return {
+			title: '',
 			inputTask: '',
 			inputData: '',
 			inputEvent: '',
@@ -164,9 +169,16 @@ export default {
 		};
 	},
 	methods: {
+		titleDisplay(task, date, event, indexStatus) {
+			if (event.length > 0) {
+				this.title = `${date} task ${task} in status "${this.statuses[indexStatus]}" event ${event} occurs.`;
+			} else {
+				this.title = `${date} task ${task} in status "${this.statuses[indexStatus]}" no events . `;
+			}
+		},
+
 		addTask() {
 			let inputTask = this.inputTask;
-			this.tasks;
 			let events = this.dates.map((event) => 0);
 
 			if (inputTask.length > 0) {
@@ -358,6 +370,14 @@ tbody {
 		margin: 0.8rem auto;
 		border-radius: 0.6rem;
 		overflow: auto;
+
+		.table__body_title {
+			min-height: 56px;
+			padding: 0.9rem 1.2rem;
+			display: flex;
+
+			font-size: 20px;
+		}
 	}
 }
 
