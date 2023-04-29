@@ -93,6 +93,7 @@ const addData = () => {
 
 	if (inputData.value.length > 0) {
 		dates.value.push(formatter.format(date));
+		tasks.value.map((item) => item.event.push(''));
 	}
 	inputData.value = '';
 };
