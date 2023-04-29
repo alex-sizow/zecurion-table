@@ -1,3 +1,122 @@
+<script setup>
+import { ref } from 'vue';
+
+const title = ref('');
+const inputTask = ref('');
+const inputData = ref('');
+const inputEvent = ref('');
+const inputStatus = ref('');
+const tasks = ref([
+	{
+		task: 'go',
+		event: ['', '🎂 Birthday', '⛳ Hollyday'],
+		status: '🟡 In progress',
+	},
+	{
+		task: 'went',
+		event: ['⛳ Hollyday', '⛳ Hollyday', '👩‍💻 Meeting'],
+		status: '🟡 In progress',
+	},
+	{
+		task: 'gone',
+		event: ['', '🎂 Birthday', '⛳ Hollyday'],
+		status: '🟡 In progress',
+	},
+	{
+		task: 'do',
+		event: ['', '⛳ Hollyday', '🎂 Birthday'],
+		status: '🟡 In progress',
+	},
+	{
+		task: 'did',
+		event: ['', '🎂 Birthday', ''],
+		status: '⚪ Stop',
+	},
+	{
+		task: 'done',
+		event: ['', '🎂 Birthday', '⛳ Hollyday'],
+		status: '🟢 Done',
+	},
+]);
+
+const dates = ref(['07.04.2023', '08.04.2023', '09.04.2023']);
+
+const events = ref([
+	'',
+	'🎂 Birthday',
+	'⛳ Hollyday',
+	'👩‍💻 Meeting',
+]);
+
+const statuses = ref([
+	'🟡 In progress',
+	'🟢 Done',
+	'⚪ Stop',
+]);
+
+const titleDisplay = (task, date, event, status) => {
+	console.log(task, date, event, status);
+	if (event.length > 0) {
+		title.value = `${date} task ${task} in status "${status}" event ${event} occurs.`;
+	} else {
+		title.value = `${date} task ${task} in status "${status}" no events . `;
+	}
+};
+
+const addTask = () => {
+	let input = inputTask.value;
+	let events = dates.value.map((event) => 0);
+
+	if (input.length > 0) {
+		tasks.value.push({
+			task: input,
+			event: events,
+			status: '🟡 In progress',
+		});
+	}
+
+	inputTask.value = '';
+};
+
+const deleteTask = (indexToRemove) => {
+	tasks.value.splice(indexToRemove, 1);
+};
+
+const addData = () => {
+	const date = new Date(inputData.value);
+	const options = {
+		month: 'numeric',
+		day: 'numeric',
+		year: 'numeric',
+	};
+	const formatter = new Intl.DateTimeFormat('ru-RU', options);
+
+	if (inputData.value.length > 0) {
+		dates.value.push(formatter.format(date));
+	}
+	inputData.value = '';
+};
+
+const addStatus = () => {
+	let input = inputStatus.value;
+
+	if (input.length > 0) {
+		statuses.value.push('🔵 ' + input);
+	}
+
+	inputStatus.value = '';
+};
+
+const addEvent = () => {
+	let input = inputEvent.value;
+
+	if (input.length > 0) {
+		events.value.push('🔶 ' + input);
+	}
+	inputEvent.value = '';
+};
+</script>
+
 <template>
 	<div class="table">
 		<section class="table__header">
@@ -11,7 +130,7 @@
 				@click="addTask">
 				✅ Add Task
 			</button>
-
+			{{ TableStore }}
 			<input
 				class="table__header_input"
 				type="date"
@@ -119,126 +238,6 @@
 		</section>
 	</div>
 </template>
-
-<script>
-export default {
-	data() {
-		return {
-			title: '',
-			inputTask: '',
-			inputData: '',
-			inputEvent: '',
-			inputStatus: '',
-
-			tasks: [
-				{
-					task: 'go',
-					event: ['', '🎂 Birthday', '⛳ Hollyday'],
-					status: '🟡 In progress',
-				},
-				{
-					task: 'went',
-					event: ['⛳ Hollyday', '⛳ Hollyday', '👩‍💻 Meeting'],
-					status: '🟡 In progress',
-				},
-				{
-					task: 'gone',
-					event: ['', '🎂 Birthday', '⛳ Hollyday'],
-					status: '🟡 In progress',
-				},
-				{
-					task: 'do',
-					event: ['', '⛳ Hollyday', '🎂 Birthday'],
-					status: '🟡 In progress',
-				},
-				{
-					task: 'did',
-					event: ['', '🎂 Birthday', ''],
-					status: '⚪ Stop',
-				},
-				{
-					task: 'done',
-					event: ['', '🎂 Birthday', '⛳ Hollyday'],
-					status: '🟢 Done',
-				},
-			],
-
-			dates: ['07.04.2023', '08.04.2023', '09.04.2023'],
-
-			events: [
-				'',
-				'🎂 Birthday',
-				'⛳ Hollyday',
-				'👩‍💻 Meeting',
-			],
-
-			statuses: ['🟡 In progress', '🟢 Done', '⚪ Stop'],
-		};
-	},
-	methods: {
-		titleDisplay(task, date, event, status) {
-			if (event.length > 0) {
-				this.title = `${date} task ${task} in status "${status}" event ${event} occurs.`;
-			} else {
-				this.title = `${date} task ${task} in status "${status}" no events . `;
-			}
-		},
-
-		addTask() {
-			let inputTask = this.inputTask;
-			let events = this.dates.map((event) => 0);
-
-			if (inputTask.length > 0) {
-				this.tasks.push({
-					task: inputTask,
-					event: events,
-					status: '🟡 In progress',
-				});
-			}
-			this.inputTask = '';
-		},
-
-		deleteTask(indexToRemove) {
-			this.tasks.splice(indexToRemove, 1);
-		},
-
-		addData() {
-			const date = new Date(this.inputData);
-			const options = {
-				month: 'numeric',
-				day: 'numeric',
-				year: 'numeric',
-			};
-			const formatter = new Intl.DateTimeFormat(
-				'ru-RU',
-				options,
-			);
-			if (this.inputData.length > 0) {
-				this.dates.push(formatter.format(date));
-			}
-			this.inputData = '';
-		},
-
-		addStatus() {
-			let inputStatus = this.inputStatus;
-
-			if (inputStatus.length > 0) {
-				this.statuses.push('🔵 ' + inputStatus);
-			}
-			this.inputStatus = '';
-		},
-
-		addEvent() {
-			let inputEvent = this.inputEvent;
-
-			if (inputEvent.length > 0) {
-				this.events.push('🔶 ' + inputEvent);
-			}
-			this.inputEvent = '';
-		},
-	},
-};
-</script>
 
 <style lang="scss">
 select {
@@ -389,7 +388,6 @@ tbody {
 			min-height: 56px;
 			padding: 0.9rem 1.2rem;
 			display: flex;
-
 			font-size: 20px;
 		}
 	}
