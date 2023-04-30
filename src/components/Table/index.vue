@@ -1,61 +1,21 @@
 <script setup>
 import { ref } from 'vue';
+import { useTableStore } from '../../stores/TableStore';
+
+const tableStore = useTableStore();
 
 const title = ref('');
 const inputTask = ref('');
 const inputData = ref('');
 const inputEvent = ref('');
 const inputStatus = ref('');
-const tasks = ref([
-	{
-		task: 'go',
-		event: ['', '🎂 Birthday', '⛳ Hollyday'],
-		status: '🟡 In progress',
-	},
-	{
-		task: 'went',
-		event: ['⛳ Hollyday', '⛳ Hollyday', '👩‍💻 Meeting'],
-		status: '🟡 In progress',
-	},
-	{
-		task: 'gone',
-		event: ['', '🎂 Birthday', '⛳ Hollyday'],
-		status: '🟡 In progress',
-	},
-	{
-		task: 'do',
-		event: ['', '⛳ Hollyday', '🎂 Birthday'],
-		status: '🟡 In progress',
-	},
-	{
-		task: 'did',
-		event: ['', '🎂 Birthday', ''],
-		status: '⚪ Stop',
-	},
-	{
-		task: 'done',
-		event: ['', '🎂 Birthday', '⛳ Hollyday'],
-		status: '🟢 Done',
-	},
-]);
 
-const dates = ref(['07.04.2023', '08.04.2023', '09.04.2023']);
-
-const events = ref([
-	'',
-	'🎂 Birthday',
-	'⛳ Hollyday',
-	'👩‍💻 Meeting',
-]);
-
-const statuses = ref([
-	'🟡 In progress',
-	'🟢 Done',
-	'⚪ Stop',
-]);
+const tasks = ref(tableStore.tasks);
+const dates = ref(tableStore.events);
+const events = ref(tableStore.events);
+const statuses = ref(tableStore.statuses);
 
 const titleDisplay = (task, date, event, status) => {
-	console.log(task, date, event, status);
 	if (event.length > 0) {
 		title.value = `${date} task ${task} in status "${status}" event ${event} occurs.`;
 	} else {
@@ -64,7 +24,7 @@ const titleDisplay = (task, date, event, status) => {
 };
 
 const addTask = () => {
-	let input = inputTask.value;
+	let input = inputTask;
 	let events = dates.value.map((event) => 0);
 
 	if (input.length > 0) {
@@ -131,7 +91,6 @@ const addEvent = () => {
 				@click="addTask">
 				✅ Add Task
 			</button>
-			{{ TableStore }}
 			<input
 				class="table__header_input"
 				type="date"
@@ -240,93 +199,7 @@ const addEvent = () => {
 	</div>
 </template>
 
-<style lang="scss">
-select {
-	width: 140px;
-	height: 35px;
-	padding: 4px;
-	border-radius: 4px;
-	box-shadow: 2px 2px 8px #999;
-	background: #eee;
-	border: none;
-	outline: none;
-	display: inline-block;
-	-webkit-appearance: none;
-	-moz-appearance: none;
-	appearance: none;
-	cursor: pointer;
-}
-label {
-	position: relative;
-}
-label:after {
-	content: '<>';
-	font: 11px 'Consolas', monospace;
-	color: #666;
-	-webkit-transform: rotate(90deg);
-	-moz-transform: rotate(90deg);
-	-ms-transform: rotate(90deg);
-	transform: rotate(90deg);
-	right: 8px;
-	top: 2px;
-	padding: 0 0 2px;
-	border-bottom: 1px solid #ddd;
-	position: absolute;
-	pointer-events: none;
-}
-label:before {
-	content: '';
-	right: 6px;
-	top: 0px;
-	width: 20px;
-	height: 20px;
-	background: #eee;
-	position: absolute;
-	pointer-events: none;
-	display: block;
-}
-
-table,
-th,
-tr {
-	padding: 1rem;
-	border-collapse: collapse;
-	font-weight: 400;
-	text-align: left;
-}
-
-th {
-}
-
-table {
-	width: 100%;
-}
-
-thead {
-	tr {
-		background-color: #d5d1defe;
-	}
-	th {
-		position: sticky;
-		top: 0;
-		left: 0;
-		background-color: #d5d1defe;
-	}
-}
-
-tbody {
-	tr {
-		transition: 0.2s;
-	}
-	tr:nth-child(even) {
-		background-color: #0000000b;
-	}
-	tr:hover {
-		background-color: #fff6;
-		transition: 0.3s;
-	}
-}
-
+<style lang="scss" scoped>
 /* Стили для option */
 
 .table {
@@ -337,6 +210,93 @@ tbody {
 	box-shadow: 0 0.4rem 0.8rem #0005;
 	border-radius: 0.8rem;
 	overflow: hidden;
+
+	table,
+	th,
+	tr {
+		padding: 1rem;
+		border-collapse: collapse;
+		font-weight: 400;
+		text-align: left;
+	}
+
+	th {
+		min-width: 110px;
+
+		select {
+			width: 140px;
+			height: 35px;
+			padding: 4px;
+			border-radius: 4px;
+			box-shadow: 2px 2px 8px #999;
+			background: #eee;
+			border: none;
+			outline: none;
+			display: inline-block;
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			appearance: none;
+			cursor: pointer;
+		}
+		label {
+			position: relative;
+		}
+		label:after {
+			content: '<>';
+			font: 11px 'Consolas', monospace;
+			color: #666;
+			-webkit-transform: rotate(90deg);
+			-moz-transform: rotate(90deg);
+			-ms-transform: rotate(90deg);
+			transform: rotate(90deg);
+			right: 8px;
+			top: 2px;
+			padding: 0 0 2px;
+			border-bottom: 1px solid #ddd;
+			position: absolute;
+			pointer-events: none;
+		}
+		label:before {
+			right: 6px;
+			top: 0px;
+			width: 20px;
+			height: 20px;
+			background: #eee;
+			position: absolute;
+			pointer-events: none;
+			display: block;
+		}
+	}
+
+	table {
+		width: 100%;
+	}
+
+	thead {
+		tr {
+			background-color: #d5d1defe;
+		}
+		th {
+			z-index: 20;
+			position: sticky;
+			top: 0;
+			left: 0;
+			background-color: #d5d1defe;
+		}
+	}
+
+	tbody {
+		tr {
+			transition: 0.2s;
+		}
+		tr:nth-child(even) {
+			background-color: #0000000b;
+		}
+		tr:hover {
+			background-color: #fff6;
+			transition: 0.3s;
+		}
+	}
 
 	.table__header {
 		width: 100%;
@@ -353,7 +313,7 @@ tbody {
 			width: 160px;
 			height: 36px;
 			border-radius: 6px;
-			background: #a5d1ef;
+			background: oklch(0.88 0.05 237.93);
 			box-shadow: inset -5px -5px 10px #9ec9e5,
 				inset 5px 5px 10px #acd9f9;
 			padding: 10px;
@@ -366,6 +326,7 @@ tbody {
 		}
 
 		.table__header_button {
+			width: 107px;
 			height: 36px;
 			border-radius: 6px;
 			background: #a5d1ef;
@@ -395,6 +356,7 @@ tbody {
 }
 
 .status {
+	min-width: 208px !important;
 	.status__delete {
 		transition: 0.5s;
 		margin-left: 1rem;

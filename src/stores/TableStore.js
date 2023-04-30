@@ -1,7 +1,5 @@
 import { defineStore } from 'pinia';
 
-
-
 export const useTableStore = defineStore('TableStore', {
 	state: () => ({
 		tasks: [
@@ -36,5 +34,11 @@ export const useTableStore = defineStore('TableStore', {
 				status: '🟢 Done',
 			},
 		],
+
+		dates: ['07.04.2023', '08.04.2023', '09.04.2023'],
+
+		events: ['', '🎂 Birthday', '⛳ Hollyday', '👩‍💻 Meeting'],
+
+		statuses: ['🟡 In progress', '🟢 Done', '⚪ Stop'],
 	}),
 });
